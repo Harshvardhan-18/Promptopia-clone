@@ -19,6 +19,8 @@ export const PATCH=async(request,{params})=>{
     try {
         await connectToDB();
 
+        const { id } = await params;
+        
         const existingPrompt=await Prompt.findById(params.id);
         if(!existingPrompt) return new Response("Prompt not found",{status:404})
 
