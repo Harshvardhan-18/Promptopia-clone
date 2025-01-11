@@ -1,14 +1,19 @@
-import Prompt from "@models/prompt";
 import { connectToDB } from "@utils/database";
+import User from "@models/user";
 
-export const GET = async (request, { params }) => {
-    try {
-        await connectToDB()
+export const GET = async (req, { params }) => {
+  const { id } = params;
 
-        const prompts = await Prompt.find({ creator: params.id }).populate("creator")
+  try {
+    await connectToDB();
 
-        return new Response(JSON.stringify(prompts), { status: 200 })
-    } catch (error) {
-        return new Response("Failed to fetch prompts created by user", { status: 500 })
+    const user = await User.findById(id);
+    if (!user) {
+      return new Response(JSON.stringify({ error: "User not found" }), { status: 404 });
     }
-} 
+
+    return new Response(JSON.stringify({ username: user.username }), { status: 200 });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: "Failed to fetch user details" }), { status: 500 });
+  }
+};

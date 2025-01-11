@@ -1,6 +1,6 @@
 import { connectToDB } from "@utils/database";
 import Prompt from "@models/prompt";
-import { resolve } from "styled-jsx/css";
+
 
 export const GET =async(request)=>{
     try {
